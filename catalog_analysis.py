@@ -1,3 +1,5 @@
+from math import*
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -24,12 +26,36 @@ movies = [
 def average_rating(movies):
     count = 0
     total = 0
-    for i in range(0, len(movies)):
-        for j in movies[i]:
+    for i in range(0, len(movies)):         # Прохожусь по элементам списка.
+        for j in movies[i]:                 # Прохожусь по ключам словаря.
             if j == 'rating':
-                total += movies[i][j]
+                total += movies[i][j]       # Суммирую все значения ключа.
                 count += 1
     res = round(total / count, 1)
     return f'Средняя оценка по каталогу: {res}'
 
 print(average_rating(movies))
+
+
+def catalog_age_stats(movies, current_year=2026):
+    old_movie = 0
+    new_movie = 1000
+    total = 0
+    count = 0
+
+    for i in range(0, len(movies)):                     # Прохожусь по элементам списка.
+        for j in movies[i]:                             # Прохожусь по ключам словаря.
+            if j == 'year':                             # Если ключ есть в словаре, проверяю по условию.
+                if (current_year - movies[i][j]) > old_movie:
+                    old_movie = current_year - movies[i][j]
+                if (current_year - movies[i][j]) < new_movie:
+                    new_movie = current_year - movies[i][j]
+                total += current_year - movies[i][j]            # Сума всех возрастов фильмов.
+        count += 1
+
+    average_yeare = ceil(total / count)         # Округление среднего значения.
+    res = [old_movie, new_movie, average_yeare]
+
+    return tuple(res)
+
+print(catalog_age_stats(movies))
