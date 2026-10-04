@@ -59,3 +59,13 @@ def catalog_age_stats(movies, current_year=2026):
     return tuple(res)
 
 print(catalog_age_stats(movies))
+
+
+def duration_in_hours(minutes):
+    hour = minutes // 60
+    minute = minutes % 60
+
+    return f'{hour}ч {minute}м'
+
+print(duration_in_hours(45))
+    
