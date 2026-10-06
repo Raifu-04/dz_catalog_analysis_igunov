@@ -89,5 +89,29 @@ def decade_label(year):
         case _:
             return "неверная дата"
 
-#print(decade_label(2027))
-        
+print("Фильмы НЕ жанра комедия:")
+for i in movies:
+    if "comedy" not in i["genres"]:
+        print('\t', i["title"])
+    else:
+        continue
+
+count = 0
+while count < len(movies):
+    if movies[count]["rating"] > 9:
+        print(f'\nШедевр: {movies[count]["title"]}')
+        break
+    count += 1
+else:
+    print("\n" + "Шедевров не найдено")
+
+def count_long_movies(movies, threshold=120):
+    count = 0
+    for i in movies:
+        if i["duration_min"] > threshold:
+            count += 1
+        else:
+            continue
+    return count
+
+print(count_long_movies(movies))
