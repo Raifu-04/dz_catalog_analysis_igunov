@@ -34,7 +34,7 @@ def average_rating(movies):
     res = round(total / count, 1)
     return f'Средняя оценка по каталогу: {res}'
 
-print(average_rating(movies))
+#print(average_rating(movies))
 
 
 def catalog_age_stats(movies, current_year=2026):
@@ -58,7 +58,7 @@ def catalog_age_stats(movies, current_year=2026):
 
     return tuple(res)
 
-print(catalog_age_stats(movies))
+#print(catalog_age_stats(movies))
 
 
 def duration_in_hours(minutes):
@@ -67,5 +67,27 @@ def duration_in_hours(minutes):
 
     return f'{hour}ч {minute}м'
 
-print(duration_in_hours(45))
-    
+#print(duration_in_hours(45))
+
+def rating_tier(rating):
+    if rating >= 9:
+        return "шедевр"
+    elif rating < 9 and rating >= 7:
+        return "хорошо"
+    else:
+        return "средне" if (rating < 7 and rating >= 5) else "слабо"
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
+        case _ if year < 2015:
+            return "старые"
+        case _:
+            return "неверная дата"
+
+#print(decade_label(2027))
+        
