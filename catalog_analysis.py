@@ -128,24 +128,42 @@ print(count_long_movies(movies))
 #================================ЭТАП 4================================
 
 def normalize_title(title):
-    list_title = title.split(' ')
+    list_title = title.split(' ') 
     new_list_title = []
     for i in range(0, len(list_title)):
-        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))
-    movie = ' '.join(new_list_title)
+        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))  #Первый символ каждого элемента делаю заглавной и объединяю с оствшимися, после чего добавляю новую строку в новый список.
+    movie = ' '.join(new_list_title)        #Объединяю элементы списка с пробелом между ними.
     return movie
 
 def make_slug(title):
-    return normalize_title(title).lower().replace(' ', '-')
+    return normalize_title(title).lower().replace(' ', '-')     #Делаю все буквы строчными и заменяю пробел на тире.
 
 print(make_slug("Silent Hours"))
 
 def format_report_line(movie):
     for i in movies:
-        if i == movie:
-            d_genres = list(i["genres"])
+        if i == movie:  #Если названия фильмов совпадают, выпалняется блок действий.
+            d_genres = list(i["genres"])    #Жанры фильма преобразуются из кортежа в список.
             d_genres.sort()
-            str_genres = ', '.join(d_genres)
+            str_genres = ', '.join(d_genres)    #Жанры объединятся запятой между ними
             return f'"{i["title"]}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}'
 
-print(format_report_line(movies[7]))
+print(format_report_line(movies[1]))
+
+
+#================================ЭТАП 5================================
+
+def titles_sorted_by_rating(movies):
+    sorted_list = sorted(movies, key=lambda m: m["rating"], reverse=True)
+    list_movie = []
+    for i in sorted_list:
+        list_movie.append(i["title"])
+    return list_movie
+
+def top_n_by_rating(movies, n=3):
+    list_top = []
+    sorted_rating = sorted(movies, key=lambda m: m["rating"], reverse=True)
+    for i in range(0, n):
+        list_top.append((sorted_rating[i]['title'], sorted_rating[i]['rating']))
+    return list_top
+
