@@ -23,6 +23,8 @@ movies = [
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
 
+#================================ЭТАП 1================================
+
 def average_rating(movies):
     count = 0
     total = 0
@@ -69,6 +71,8 @@ def duration_in_hours(minutes):
 
 #print(duration_in_hours(45))
 
+#================================ЭТАП 2================================
+
 def rating_tier(rating):
     if rating >= 9:
         return "шедевр"
@@ -76,6 +80,7 @@ def rating_tier(rating):
         return "хорошо"
     else:
         return "средне" if (rating < 7 and rating >= 5) else "слабо"
+
 
 
 def decade_label(year):
@@ -88,6 +93,9 @@ def decade_label(year):
             return "старые"
         case _:
             return "неверная дата"
+
+
+#================================ЭТАП 3================================
 
 print("Фильмы НЕ жанра комедия:")
 for i in movies:
@@ -115,3 +123,29 @@ def count_long_movies(movies, threshold=120):
     return count
 
 print(count_long_movies(movies))
+
+
+#================================ЭТАП 4================================
+
+def normalize_title(title):
+    list_title = title.split(' ')
+    new_list_title = []
+    for i in range(0, len(list_title)):
+        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))
+    movie = ' '.join(new_list_title)
+    return movie
+
+def make_slug(title):
+    return normalize_title(title).lower().replace(' ', '-')
+
+print(make_slug("Silent Hours"))
+
+def format_report_line(movie):
+    for i in movies:
+        if i == movie:
+            d_genres = list(i["genres"])
+            d_genres.sort()
+            str_genres = ', '.join(d_genres)
+            return f'"{i["title"]}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}'
+
+print(format_report_line(movies[7]))
