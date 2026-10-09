@@ -34,7 +34,7 @@ def average_rating(movies):
                 total += movies[i][j]       # Суммирую все значения ключа.
                 count += 1
     res = round(total / count, 1)
-    return f'Средняя оценка по каталогу: {res}'
+    return res
 
 #print(average_rating(movies))
 
@@ -146,7 +146,7 @@ def format_report_line(movie):
             d_genres = list(i["genres"])    #Жанры фильма преобразуются из кортежа в список.
             d_genres.sort()
             str_genres = ', '.join(d_genres)    #Жанры объединятся запятой между ними
-            return f'"{i["title"]}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}'
+            return f'"{i["title"]}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}.'
 
 print(format_report_line(movies[1]))
 
@@ -167,3 +167,37 @@ def top_n_by_rating(movies, n=3):
         list_top.append((sorted_rating[i]['title'], sorted_rating[i]['rating']))
     return list_top
 
+
+#================================ЭТАП 6================================
+
+def count_by_genre(movies):
+    result = {}
+    
+    for movie in movies:
+        for genre in movie["genres"]:
+            result[genre] = result.get(genre, 0) + 1
+    
+    return result
+
+
+
+def actor_filmography(movies):
+    list_actor = []
+    for movie in movies:
+        for actor in movie["actors"]:
+            if actor not in list_actor:
+                list_actor.append(actor)
+
+    result = {}
+    for actor in list_actor:
+        list_movies = []
+        for movie in movies:
+            if actor in movie["actors"]:
+                list_movies.append(movie["title"])
+        result[actor] = list_movies
+
+    return result
+
+
+dict_rating = {i["title"]: i["rating"] for i in movies if i["rating"] > average_rating(movies)}
+        
