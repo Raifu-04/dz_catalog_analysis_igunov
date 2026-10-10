@@ -146,9 +146,8 @@ def format_report_line(movie):
             d_genres = list(i["genres"])    #Жанры фильма преобразуются из кортежа в список.
             d_genres.sort()
             str_genres = ', '.join(d_genres)    #Жанры объединятся запятой между ними
-            return f'"{i["title"]}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}.'
+            return f'"{normalize_title(i["title"])}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}'
 
-print(format_report_line(movies[1]))
 
 
 #================================ЭТАП 5================================
@@ -232,3 +231,18 @@ def genres_only_in_one(movies_a, movies_b):
 
     return result
 
+
+
+#================================ЭТАП 8================================
+
+def iter_high_rated(movies, min_rating=8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+
+total_sum = sum(m["duration_min"] for m in movies if m["rating"] > 7)
+
+print(total_sum)
