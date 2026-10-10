@@ -36,7 +36,6 @@ def average_rating(movies):
     res = round(total / count, 1)
     return res
 
-#print(average_rating(movies))
 
 
 def catalog_age_stats(movies, current_year=2026):
@@ -52,7 +51,7 @@ def catalog_age_stats(movies, current_year=2026):
                     old_movie = current_year - movies[i][j]
                 if (current_year - movies[i][j]) < new_movie:
                     new_movie = current_year - movies[i][j]
-                total += current_year - movies[i][j]            # Сума всех возрастов фильмов.
+                total += current_year - movies[i][j]            # Сумма всех возрастов фильмов.
         count += 1
 
     average_yeare = ceil(total / count)         # Округление среднего значения.
@@ -60,7 +59,6 @@ def catalog_age_stats(movies, current_year=2026):
 
     return tuple(res)
 
-#print(catalog_age_stats(movies))
 
 
 def duration_in_hours(minutes):
@@ -69,7 +67,6 @@ def duration_in_hours(minutes):
 
     return f'{hour}ч {minute}м'
 
-#print(duration_in_hours(45))
 
 #================================ЭТАП 2================================
 
@@ -100,7 +97,7 @@ def decade_label(year):
 print("Фильмы НЕ жанра комедия:")
 for i in movies:
     if "comedy" not in i["genres"]:
-        print('\t', i["title"])
+        print('  ', i["title"])
     else:
         continue
 
@@ -122,8 +119,6 @@ def count_long_movies(movies, threshold=120):
             continue
     return count
 
-print(count_long_movies(movies))
-
 
 #================================ЭТАП 4================================
 
@@ -131,24 +126,21 @@ def normalize_title(title):
     list_title = title.split(' ') 
     new_list_title = []
     for i in range(0, len(list_title)):
-        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))  #Первый символ каждого элемента делаю заглавной и объединяю с оствшимися, после чего добавляю новую строку в новый список.
+        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))  #Первый символ каждого элемента делаю заглавной и объединяю с оставшимися, после чего добавляю новую строку в новый список.
     movie = ' '.join(new_list_title)        #Объединяю элементы списка с пробелом между ними.
     return movie
 
 def make_slug(title):
     return normalize_title(title).lower().replace(' ', '-')     #Делаю все буквы строчными и заменяю пробел на тире.
 
-print(make_slug("Silent Hours"))
 
 def format_report_line(movie):
     for i in movies:
-        if i == movie:  #Если названия фильмов совпадают, выпалняется блок действий.
+        if i == movie or i["title"] == movie:  #Если названия фильмов совпадают, выполняется блок действий.
             d_genres = list(i["genres"])    #Жанры фильма преобразуются из кортежа в список.
             d_genres.sort()
             str_genres = ', '.join(d_genres)    #Жанры объединятся запятой между ними
             return f'"{normalize_title(i["title"])}" ({i["year"]}) — {i["rating"]}/10, {duration_in_hours(i["duration_min"])}, жанры: {str_genres}'
-
-
 
 #================================ЭТАП 5================================
 
@@ -175,7 +167,7 @@ def count_by_genre(movies):
     for movie in movies:
         for genre in movie["genres"]:
             result[genre] = result.get(genre, 0) + 1
-    
+
     return result
 
 
@@ -244,5 +236,31 @@ for movie in iter_high_rated(movies):
     print(format_report_line(movie))
 
 total_sum = sum(m["duration_min"] for m in movies if m["rating"] > 7)
-
 print(total_sum)
+
+
+#================================ЭТАП 9================================
+
+def build_report(movies):
+    print("ОТЧЁТ ПО КАТАЛОГУ")
+    print(f'Средний рейтинг: {average_rating(movies)}')
+    print(f'Средний возраст фильмов: {catalog_age_stats(movies)[-1]} лет')
+
+    top_movies = []
+    for movie in top_n_by_rating(movies):
+        top_movies.append(movie[0])
+
+    print("\nТоп-3 фильма:")
+
+    for movie in top_movies:
+        print(f'  {format_report_line(movie)}')
+
+    print("\nФильмов по жанрам:")
+
+    for genre in sorted(count_by_genre(movies).items(), key=lambda x: (-x[1], x[0]), reverse=False):
+        print(f'  {genre[0]} — {genre[1]}')
+
+    list_genres = sorted(list(all_genres(movies)))
+    print(f'\nВсе жанры каталога: {', '.join(list_genres)}')
+
+build_report(movies)
