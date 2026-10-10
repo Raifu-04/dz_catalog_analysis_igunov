@@ -200,4 +200,35 @@ def actor_filmography(movies):
 
 
 dict_rating = {i["title"]: i["rating"] for i in movies if i["rating"] > average_rating(movies)}
-        
+
+
+#================================ЭТАП 7================================
+
+def all_genres(movies):
+    genres_set = set()
+    for movie in movies:
+        genres_set = genres_set | movie["genres"]
+
+    return genres_set
+
+
+def common_actors(movie1, movie2):
+    res = set(movie1["actors"]) & set(movie2["actors"])
+    return res
+
+
+def genres_only_in_one(movies_a, movies_b):
+    set_genre_1 = set()
+
+    for movie in movies_a:
+        set_genre_1 = set_genre_1 | movie["genres"]
+
+    set_genre_2 = set()
+
+    for movie in movies_b:
+        set_genre_2 = set_genre_2 | movie["genres"]
+
+    result = set_genre_1 - set_genre_2 
+
+    return result
+
