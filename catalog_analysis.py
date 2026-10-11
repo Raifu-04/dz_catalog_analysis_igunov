@@ -1,4 +1,4 @@
-from math import*
+from math import ceil
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -54,9 +54,9 @@ def catalog_age_stats(movies, current_year=2026):       # Возвращает �
         count += 1
 
     average_yeare = ceil(total / count)
-    res = [old_movie, new_movie, average_yeare]
+    res = (old_movie, new_movie, average_yeare)
 
-    return tuple(res)
+    return res
 
 
 def duration_in_hours(minutes):     # Переводит минуты в формат "2ч 35м"
@@ -124,7 +124,7 @@ def normalize_title(title):     # Возвращает строку формат
     list_title = title.split(' ') 
     new_list_title = []
     for i in range(0, len(list_title)):
-        new_list_title.append(str(list_title[i][0].upper()) + str(list_title[i][1::]))
+        new_list_title.append(list_title[i][0].upper() + list_title[i][1::])
     movie = ' '.join(new_list_title)
     return movie
 
