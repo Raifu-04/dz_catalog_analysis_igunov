@@ -92,22 +92,22 @@ def decade_label(year):     # Возвращает метку "новые" (по
 
 #================================ЭТАП 3================================
 
-print("Фильмы НЕ жанра комедия:")
-for i in movies:
-    if "comedy" not in i["genres"]:
-        print('  ', i["title"])          # Выводит названия всех фильмов, которые НЕ относятся к жанру "comedy"
+def demo_loops(movies):     # Выводит на экран названия всех фильмов, которые НЕ относятся к жанру "comedy"
+    print("Фильмы НЕ жанра комедия:")
+    for i in movies:
+        if "comedy" not in i["genres"]:
+            print('  ', i["title"])
+        else:
+            continue
+
+    count = 0
+    while count < len(movies):
+        if movies[count]["rating"] > 9:
+            print(f'\nШедевр: {movies[count]["title"]}')
+            break
+        count += 1
     else:
-        continue
-
-
-count = 0
-while count < len(movies):
-    if movies[count]["rating"] > 9:     # Выводит первый фильм с рейтингом выше 9
-        print(f'\nШедевр: {movies[count]["title"]}')
-        break
-    count += 1
-else:
-    print("\n" + "Шедевров не найдено")     # Если фильма такого нет, выводит "Шедевров не найдено"
+        print("\n" + "Шедевров не найдено")
 
 def count_long_movies(movies, threshold=120):       # Возвращает количество фильмов длиннее threshold минут
     count = 0
@@ -229,11 +229,11 @@ def iter_high_rated(movies, min_rating=8.0):        # Функция-генер�
         if movie["rating"] >= min_rating:
             yield movie
 
-for movie in iter_high_rated(movies):       # Печатает сгенерированные фильмы из high_rated(movies, min_rating=8.0)
-    print(format_report_line(movie))
-
-total_sum = sum(m["duration_min"] for m in movies if m["rating"] > 7)       # Генераторное выражение считывающее суммарную длительность всех фильмов с рейтингом выше 7 в минутах
-print(total_sum)
+def demo_generators(movies):        # Считает суммарную длительность всех фильмов с рейтингом выше 7 в минутах
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+    total_sum = sum(m["duration_min"] for m in movies if m["rating"] > 7)
+    print(total_sum)
 
 
 #================================ЭТАП 9================================
@@ -263,4 +263,6 @@ def build_report(movies):   # Консольный отчет
     list_genres = sorted(all_genres(movies))
     print(f'\nВсе жанры каталога: {', '.join(list_genres)}')
 
-build_report(movies)
+
+if __name__ == "__main__":
+    build_report(movies)
