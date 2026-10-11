@@ -265,4 +265,6 @@ def build_report(movies):   # Консольный отчет
 
 
 if __name__ == "__main__":
+    demo_loops(movies)
+    demo_generators(movies)
     build_report(movies)
